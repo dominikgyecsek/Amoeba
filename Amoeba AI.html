@@ -530,6 +530,7 @@
 					$this.append(x);
 					$("#" + id).addClass("occupied");
 					table[id] = 1;
+					console.log("User Selected: " + id);
 					isMyTurn = !isMyTurn;
 					AI();
 				}
@@ -552,8 +553,6 @@
 
 		if ( (bestCaseIndex == undefined) || (table[bestCaseIndex] != 0) ) {
 
-			console.log("Dont have best case");
-
 			var isOccupied = true;
 
 			while (isOccupied) {
@@ -569,6 +568,7 @@
 					isMyTurn = !isMyTurn;
 					isOccupied = false;
 					table[rand] = 2;
+					console.log("Machine Randomed: " + rand);
 
 				}
 
@@ -576,8 +576,7 @@
 
 		} else {
 
-			console.log("Best case is: " + bestCaseIndex);
-
+			console.log("Machine Selected: " + bestCaseIndex);
 			$this = $("#" + bestCaseIndex);
 			$this.addClass("occupied");
 			$this.append(o);
@@ -589,8 +588,6 @@
 
 		bestCase = 8;
 		check();
-
-		console.log("--------------------------------------------------")
 
 	}
 
@@ -872,45 +869,30 @@
 					if (bestCase > 7) {
 						bestCase = 7;
 						bestCaseIndex = startIndex + (steps*i) + (2 * steps);
-						console.log("SEVEN")
-						console.log(mask)
-						console.log(bestCaseIndex)
 					}
 					break;	
 				case "02000":
 					if (bestCase > 7) {
 						bestCase = 7;
 						bestCaseIndex = startIndex + (steps*i) + (0 * steps);
-						console.log("SEVEN")
-						console.log(mask)
-						console.log(bestCaseIndex)
 					}
 					break;	
 				case "00200":
 					if (bestCase > 7) {
 						bestCase = 7;
 						bestCaseIndex = startIndex + (steps*i) + (2 * steps);
-						console.log("SEVEN")
-						console.log(mask)
-						console.log(bestCaseIndex)
 					}
 					break;
 				case "00020":
 					if (bestCase > 7) {
 						bestCase = 7;
 						bestCaseIndex = startIndex + (steps*i) + (3 * steps);
-						console.log("SEVEN")
-						console.log(mask)
-						console.log(bestCaseIndex)
 					}
 					break;
 				case "00002":
 					if (bestCase > 7) {
 						bestCase = 7;
 						bestCaseIndex = startIndex + (steps*i) + (3 * steps);
-						console.log("SEVEN")
-						console.log(mask)
-						console.log(bestCaseIndex)
 					}
 					break;
 
