@@ -547,7 +547,7 @@
 
 	function AI() {
 
-		bestCase = 8
+		bestCase = 8;
 		check();
 
 		if ( (bestCaseIndex == undefined) || (table[bestCaseIndex] != 0) ) {
@@ -587,6 +587,7 @@
 		}
 
 
+		bestCase = 8;
 		check();
 
 		console.log("--------------------------------------------------")
@@ -719,6 +720,8 @@
 				case "22222":
 					alert("Machine Won");
 					break;
+
+				// Machine a step away from winning
 				case "02222":
 					bestCase = 1
 					bestCaseIndex = startIndex + (steps*i);
@@ -739,6 +742,8 @@
 					bestCase = 1;
 					bestCaseIndex = startIndex + (steps*i) + (4 * steps);	
 					break;
+
+				// Player a step away from winning
 				case "01111":
 					if (bestCase >= 2) {
 						bestCase = 2;
@@ -768,63 +773,152 @@
 						bestCase = 2;
 						bestCaseIndex = startIndex + (steps*i) + (4 * steps);
 					}	
-					break;		
+					break;	
+
+				// Player two steps away from winning
+				case "11100":
+					if (bestCase >= 3) {
+						bestCase = 3;
+						bestCaseIndex = startIndex + (steps*i) + (3 * steps);
+					}	
+					break;	
+				case "01110":
+					if (bestCase >= 3) {
+						bestCase = 3;
+						bestCaseIndex = startIndex + (steps*i) + (1 * steps);
+					}	
+					break;	
+				case "00111":
+					if (bestCase >= 3) {
+						bestCase = 3;
+						bestCaseIndex = startIndex + (steps*i) + (1 * steps);
+					}	
+					break;	
+
+				// Machine two steps away from winning
+				case "22200":
+					if (bestCase >= 4) {
+						bestCase = 4;
+						bestCaseIndex = startIndex + (steps*i) + (3 * steps);
+					}	
+					break;	
+				case "02220":
+					if (bestCase >= 4) {
+						bestCase = 4;
+						bestCaseIndex = startIndex + (steps*i) + (1 * steps);
+					}	
+					break;	
+				case "00222":
+					if (bestCase >= 4) {
+						bestCase = 4;
+						bestCaseIndex = startIndex + (steps*i) + (2 * steps);
+					}	
+					break;
+
+				// User three steps away from winning
+				case "11000":
+					if (bestCase > 5) {
+						bestCase = 5;
+						bestCaseIndex = startIndex + (steps*i) + (3 * steps);
+					}
+					break;	
+				case "01100":
+					if (bestCase > 5) {
+						bestCase = 5;
+						bestCaseIndex = startIndex + (steps*i) + (4 * steps);
+					}
+					break;	
+				case "00110":
+					if (bestCase > 5) {
+						bestCase = 5;
+						bestCaseIndex = startIndex + (steps*i) + (1 * steps);
+					}
+					break;
+				case "00011":
+					if (bestCase > 5) {
+						bestCase = 5;
+						bestCaseIndex = startIndex + (steps*i) + (2 * steps);
+					}
+					break;
+
+				// Machine three steps away from winning
+				case "22000":
+					if (bestCase > 6) {
+						bestCase = 6;
+						bestCaseIndex = startIndex + (steps*i) + (3 * steps);
+					}
+					break;	
+				case "02200":
+					if (bestCase > 6) {
+						bestCase = 6;
+						bestCaseIndex = startIndex + (steps*i) + (4 * steps);
+					}
+					break;	
+				case "00220":
+					if (bestCase > 6) {
+						bestCase = 6;
+						bestCaseIndex = startIndex + (steps*i) + (1 * steps);
+					}
+					break;
+				case "00022":
+					if (bestCase > 6) {
+						bestCase = 6;
+						bestCaseIndex = startIndex + (steps*i) + (2 * steps);
+					}
+					break;
+
+				// Machine four steps away from winning
+				case "20000":
+					if (bestCase > 7) {
+						bestCase = 7;
+						bestCaseIndex = startIndex + (steps*i) + (2 * steps);
+						console.log("SEVEN")
+						console.log(mask)
+						console.log(bestCaseIndex)
+					}
+					break;	
+				case "02000":
+					if (bestCase > 7) {
+						bestCase = 7;
+						bestCaseIndex = startIndex + (steps*i) + (0 * steps);
+						console.log("SEVEN")
+						console.log(mask)
+						console.log(bestCaseIndex)
+					}
+					break;	
+				case "00200":
+					if (bestCase > 7) {
+						bestCase = 7;
+						bestCaseIndex = startIndex + (steps*i) + (2 * steps);
+						console.log("SEVEN")
+						console.log(mask)
+						console.log(bestCaseIndex)
+					}
+					break;
+				case "00020":
+					if (bestCase > 7) {
+						bestCase = 7;
+						bestCaseIndex = startIndex + (steps*i) + (3 * steps);
+						console.log("SEVEN")
+						console.log(mask)
+						console.log(bestCaseIndex)
+					}
+					break;
+				case "00002":
+					if (bestCase > 7) {
+						bestCase = 7;
+						bestCaseIndex = startIndex + (steps*i) + (3 * steps);
+						console.log("SEVEN")
+						console.log(mask)
+						console.log(bestCaseIndex)
+					}
+					break;
 
 			}
 
 		}
 
 	}
-
-/*0
-OOOOO
-XXXXX
-
-1
-OOOO_
-OOO_O
-OO_OO
-O_OOO
-_OOOO
-
-2
-XXXX_
-XXX_X
-XX_XX
-X_XXX
-_XXXX
-
-3
-XXX__
-_XXX_
-__XXX
-
-4
-OOO__
-_OOO_
-__OOO
-
-5
-XX___
-_XX__
-__XX_
-___XX
-
-6 or random
-OO___
-_OO__
-__OO_
-___OO
-
-7
-X____
-_X___
-__X__
-___X_
-____X
-
-8 
-Random*/
 
 </script>
 
