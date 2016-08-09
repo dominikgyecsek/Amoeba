@@ -574,7 +574,7 @@
 
 		}
 
-		if ( isOver() ) return;
+		//if ( isOver() ) return;
 
 	}
 
@@ -590,13 +590,88 @@
 		var isFull = false;
 		var isWon = false;
 
+		/* Vertical */
+
 		for (var i = 1; i <= 20; i++) {
 			var row = "";
 			var start = i;
 			for (var j = 0; j < 20; j++) {
-				row += String ( j * 20 + start ) + " - ";
+				var tableI = j * 20 + start;
+				//row += table[tableI] + "|";
+				row += tableI + "|";
 			}
-			console.log(row);
+			console.log("Column: " + i + " - " + row);
+		}
+
+		/* Horizontal */
+
+		for (var i = 1; i <= 381; i += 20) {
+			var row = "";
+			for (var j = 0; j < 20; j++) {
+				var tableI = i + j;
+				row += tableI + "|";
+			}
+			console.log("Row: " + i + " - " + row);
+		}
+
+		/* Diagonal 1 */
+
+		for (var i = 5; i <= 20; i++) {
+
+			var row = "";
+			for (var j = 1; j <= i; j++) {
+				var tableIndex = ( j - 1 ) * 19 + i;
+				row += tableIndex + "|";
+			}
+
+			console.log("Diagonal 1, Line " + i + " - " + row);
+
+		}
+
+		/* Diagonal 2 */
+
+		for (var i = 381; i <= 396; i++) {
+
+			var row = "";
+			var till = 400-i+1
+			for (var j = 0; j < till; j++) {
+				var tableIndex =  i - ( 19 * j) ;
+				row += tableIndex + "|";
+			}
+
+			console.log("Diagonal 2 Line " + i + " - " + row);
+
+		}
+
+		/* Diagonal 3 */
+
+		for (var i = 1; i <= 16; i++) {
+
+			var row = "";
+			var till = 20 - i + 1 //
+			for (var j = 1; j <= till; j++) {
+				var tableIndex = ( j - 1 ) * 21 + i;
+				//var tableIndex =  i - ( 21 * j) ;
+				row += tableIndex + "|";
+			}
+
+			console.log("Diagonal 3, Line " + i + " - " + row);
+
+		}
+
+		/* Diagonal 4 */
+
+		for (var i = 385; i <= 400; i++) {
+
+			var row = "";
+			var till = i-400+20;
+			for (var j = 0; j < till; j++) {
+				var tableIndex =  i - ( 21 * j) ;
+				row += tableIndex + "|";
+			}
+
+			console.log("Diagonal 2 Line " + i + " - " + row);
+
 		}
 
 		return false;
