@@ -547,34 +547,46 @@
 
 	function AI() {
 
-		//if ( isOver() ) return;
+		check();
 
+		if (bestCaseIndex == undefined) {
 
-		var isOccupied = true;
+			console.log("Dont have best case");
 
-		while (isOccupied) {
+			var isOccupied = true;
 
-			var rand = randomize(1, tableSize);
-			// Pattern Check
+			while (isOccupied) {
 
-			if ( (table[rand]) == 0 ) {
+				var rand = randomize(1, tableSize);
+				// Pattern Check
 
-				$this = $("#" + rand);
-				$this.addClass("occupied");
-				$this.append(o);
-				isMyTurn = !isMyTurn;
-				isOccupied = false;
-				table[rand] = 2;
-				console.log("Choose")
+				if ( (table[rand]) == 0 ) {
 
-			} else {
-				console.log("Collison");
+					$this = $("#" + rand);
+					$this.addClass("occupied");
+					$this.append(o);
+					isMyTurn = !isMyTurn;
+					isOccupied = false;
+					table[rand] = 2;
+
+				}
+
 			}
+
+		} else {
+
+			console.log("Best case is: " + bestCaseIndex);
+
+			$this = $("#" + bestCaseIndex);
+			$this.addClass("occupied");
+			$this.append(o);
+			isMyTurn = !isMyTurn;
+			table[bestCaseIndex] = 2;
 
 		}
 
 
-		if ( isOver() ) return;
+		check();
 
 		console.log("--------------------------------------------------")
 
@@ -587,10 +599,15 @@
 
 	}
 
-	function isOver () {
+	var isOver = false;
+	var isFull = false;
+	var bestCase;
+	var bestCaseIndex;
 
-		var isFull = false;
-		var isWon = false;
+	function check () {
+
+		bestCase = 0;
+		bestCaseIndex = undefined;
 
 		/* Vertical */
 
@@ -679,7 +696,7 @@
 				row.push( table[tableI] );
 			}
 
-			analize(row, i, -19);
+			analize(row, i, -21);
 
 		}
 
@@ -694,26 +711,44 @@
 		console.log(steps)*/
 
 		for (var i = 0; i <= row.length-5; i++) {
+
 			var mask = String(row[i]) + String(row[i+1]) + String(row[i+2]) + String(row[i+3]) + String(row[i+4])
-			
+		
 			if (mask == "11111") {
 				//alert("User Won");
-				console.log("User won");
 			} else if ( mask == "22222" ) {
 				//alert("Machine Won");
-				console.log("Machine won");
+			} else if (mask == "01111") {
+				// Prevent user from winnig
+				bestCase = 1
+				bestCaseIndex = startIndex + (steps*i);
+			} else if (mask == "10111") {
+				// Prevent user from winnig
+				bestCase = 1
+				bestCaseIndex = startIndex + (steps*i) + 1;
+			} else if (mask == "11011") {
+				// Prevent user from winnig
+				bestCase = 1;
+				console.log("Mask: " + mask);
+				console.log("Start: " + startIndex);
+				console.log("Steps: " + steps);
+				console.log("Analyse Loop: " + i);
+				bestCaseIndex = startIndex + (steps*i) + (2 * steps);
+			} else if (mask == "11101") {
+				// Prevent user from winnig
+				bestCase = 1
+				bestCaseIndex = startIndex + (steps*i) + 3;
+			} else if (mask == "11110") {
+				// Prevent user from winnig
+				bestCase = 1
+				bestCaseIndex = startIndex + (steps*i) + 4;
 			} else {
 
-			}
-
-			console.log("----")
+			} 
 
 		}
 
 	}
-
-	var bestCase;
-	var bestCaseIndex;
 
 /*0
 OOOOO
