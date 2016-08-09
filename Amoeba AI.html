@@ -549,7 +549,7 @@
 
 		check();
 
-		if (bestCaseIndex == undefined) {
+		if ( (bestCaseIndex == undefined) || (table[bestCaseIndex] != 0) ) {
 
 			console.log("Dont have best case");
 
@@ -621,7 +621,7 @@
 				row.push( table[tableI] );
 			}
 
-			analize(row, i, 20);
+			analize(row, i, 20, 1);
 
 		}
 
@@ -636,7 +636,7 @@
 				row.push( table[tableI] );
 			}
 
-			analize(row, i, 1);
+			analize(row, i, 1, 2);
 
 		}
 
@@ -651,7 +651,7 @@
 				row.push( table[tableI] );
 			}
 
-			analize(row, i, 19);
+			analize(row, i, 19, 3);
 
 		}
 
@@ -666,7 +666,7 @@
 				row.push( table[tableI] );
 			}
 
-			analize(row, i, -19);
+			analize(row, i, -19, 4);
 
 		}
 
@@ -681,7 +681,7 @@
 				row.push( table[tableI] );
 			}
 
-			analize(row, i, 21);
+			analize(row, i, 21, 5);
 
 		}
 
@@ -696,7 +696,7 @@
 				row.push( table[tableI] );
 			}
 
-			analize(row, i, -21);
+			analize(row, i, -21, 6);
 
 		}
 
@@ -704,11 +704,7 @@
 
 	}
 
-	function analize(row, startIndex, steps) {
-
-		/*console.log(row);
-		console.log(startIndex);
-		console.log(steps)*/
+	function analize(row, startIndex, steps, source) {
 
 		for (var i = 0; i <= row.length-5; i++) {
 
@@ -721,11 +717,21 @@
 			} else if (mask == "01111") {
 				// Prevent user from winnig
 				bestCase = 1
-				bestCaseIndex = startIndex + (steps*i);
+				console.log("Mask: " + mask);
+				console.log("Start: " + startIndex);
+				console.log("Steps: " + steps);
+				console.log("Analyse Loop: " + i);
+				console.log("source:" + source)
+				bestCaseIndex = startIndex + (steps*i) + (0 * steps);
 			} else if (mask == "10111") {
 				// Prevent user from winnig
 				bestCase = 1
-				bestCaseIndex = startIndex + (steps*i) + 1;
+				console.log("Mask: " + mask);
+				console.log("Start: " + startIndex);
+				console.log("Steps: " + steps);
+				console.log("Analyse Loop: " + i);
+				console.log("source:" + source)
+				bestCaseIndex = startIndex + (steps*i) + (1 * steps);
 			} else if (mask == "11011") {
 				// Prevent user from winnig
 				bestCase = 1;
@@ -733,15 +739,26 @@
 				console.log("Start: " + startIndex);
 				console.log("Steps: " + steps);
 				console.log("Analyse Loop: " + i);
+				console.log("source:" + source)
 				bestCaseIndex = startIndex + (steps*i) + (2 * steps);
 			} else if (mask == "11101") {
 				// Prevent user from winnig
 				bestCase = 1
-				bestCaseIndex = startIndex + (steps*i) + 3;
+				console.log("Mask: " + mask);
+				console.log("Start: " + startIndex);
+				console.log("Steps: " + steps);
+				console.log("Analyse Loop: " + i);
+				console.log("source:" + source)
+				bestCaseIndex = startIndex + (steps*i) + (3 * steps);
 			} else if (mask == "11110") {
 				// Prevent user from winnig
 				bestCase = 1
-				bestCaseIndex = startIndex + (steps*i) + 4;
+				console.log("Mask: " + mask);
+				console.log("Start: " + startIndex);
+				console.log("Steps: " + steps);
+				console.log("Analyse Loop: " + i);
+				console.log("source:" + source)
+				bestCaseIndex = startIndex + (steps*i) + (4 * steps);
 			} else {
 
 			} 
