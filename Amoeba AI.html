@@ -558,7 +558,6 @@
 			while (isOccupied) {
 
 				var rand = randomize(1, tableSize);
-				// Pattern Check
 
 				if ( (table[rand]) == 0 ) {
 
@@ -774,7 +773,7 @@
 
 				// Player two steps away from winning
 				case "11100":
-					if (bestCase >= 3) {
+					if (bestCase > 3) {
 						bestCase = 3;
 						bestCaseIndex = startIndex + (steps*i) + (3 * steps);
 					}	
@@ -782,15 +781,28 @@
 				case "01110":
 					if (bestCase >= 3) {
 						bestCase = 3;
-						bestCaseIndex = startIndex + (steps*i) + (1 * steps);
+						bestCaseIndex = startIndex + (steps*i);
 					}	
 					break;	
 				case "00111":
-					if (bestCase >= 3) {
+					if (bestCase > 3) {
 						bestCase = 3;
 						bestCaseIndex = startIndex + (steps*i) + (1 * steps);
 					}	
 					break;	
+				case "01011":
+					if (bestCase > 3) {
+						bestCase = 3;
+						bestCaseIndex = startIndex + (steps*i) + (2 * steps);
+					}	
+					break;
+				case "11010":
+					if (bestCase > 3) {
+						bestCase = 3;
+						bestCaseIndex = startIndex + (steps*i) + (2 * steps);
+					}	
+					break;					
+				//case "01010":
 
 				// Machine two steps away from winning
 				case "22200":
@@ -832,6 +844,12 @@
 					}
 					break;
 				case "00011":
+					if (bestCase > 5) {
+						bestCase = 5;
+						bestCaseIndex = startIndex + (steps*i) + (2 * steps);
+					}
+					break;
+				case "01010":
 					if (bestCase > 5) {
 						bestCase = 5;
 						bestCaseIndex = startIndex + (steps*i) + (2 * steps);
