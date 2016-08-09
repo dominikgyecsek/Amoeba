@@ -25,6 +25,7 @@
 		width: 600px;
 		height: 600px;
 		align-self: center;
+		position: relative;
 	}
 
 	.tile {
@@ -36,22 +37,9 @@
 		cursor: pointer;
 	}
 
-
-	.line {
-		position: relative;
-		width: 3px;
-		height: 20px;
-		transform: rotateZ(45deg);
-		background-color: rgb(160, 160, 160);
-		display: inline-block;
-		top: 5px;
-		left: 12px;
-	}
-
-	.alt {
-		transform: rotateZ(135deg);
-		top: 5px;
-		left: 9px;
+	@keyframes scaleUpCircle {
+		0% { transform: scale(0.1, 0.1); }
+		100% { transform: scale(1, 1); }
 	}
 
 	.circle {
@@ -63,7 +51,24 @@
 		display: inline-block;
 		border-radius: 100%;
 		position: relative;
-		border: 3px solid rgb(160, 160, 160);;
+		border: 3px solid rgb(160, 160, 160);
+		animation-name: scaleUpCircle;
+		animation-duration: 0.3s;
+		animation-fill-mode: forwards;
+	}
+
+	.circle-alt {
+		background-color: rgb(160, 160, 160);
+	}
+
+	#reset-game-btn {
+		width: 600px;
+		position: absolute;
+		top: -27px;
+		color: #b3b3b3;
+		background-color: rgb(220,220,220);
+		border: none;
+		padding: 5px
 	}
 
 	</style>
@@ -72,7 +77,10 @@
 <body>
 
 
+	
 	<main>
+
+	<button class="button" id="reset-game-btn">Restart</button>
 
 <span class="tile" id="1"></span>
 <span class="tile" id="2"></span>
@@ -476,7 +484,6 @@
 <span class="tile" id="400"></span>
 
 
-
 	</main>
 
 </body>
@@ -484,33 +491,18 @@
 <script src="jquery-2.2.1.min.js"></script>
 <script>
 
+	$("#reset-game-btn").click(function() {
+		resetGame();
+	})
+
 	var isGameOver = false;
-	var isMyTurn = false;
-	var x = '<span class="line"></span><span class="line alt"></span>';
+	var isMyTurn = true;
+	var winner = undefined;
+
+	var x = '<span class="circle circle-alt"></span>';
 	var o = '<span class="circle"></span>';
-	var table = [
-		null,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0		
-	]
+
+	resetGame();
 
 	const tableSize = 400;			
 
@@ -526,7 +518,7 @@
 			
 			if (!isOccupied) {
 
-				if (!isMyTurn) {
+				if (isMyTurn) {
 					$this.append(x);
 					$("#" + id).addClass("occupied");
 					table[id] = 1;
@@ -542,8 +534,37 @@
 	})
 
 	function resetGame() {
+
 		isGameOver = false;
-		console.log("Reset Game");
+		table = [
+			null,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+		]
+		if (winner != undefined) alert(winner);
+		isMyTurn = true;
+		winner = undefined;
+
+		$(".occupied").removeClass("occupied").empty();
+
 	}
 
 	function AI() {
@@ -698,7 +719,20 @@
 
 		}
 
-		return false;
+		isFull = true;
+		for (var i = 1; i < table.length; i++) {
+			if ( (table[i] == 1) || (table[i] == 2) ) {
+				isFull = false;
+				break;
+			}
+		}
+
+		if ( (winner == undefined) && (isFull) ) {
+			winner = "Its a draw";
+			resetGame();
+		} else if ( winner != undefined ) {
+			resetGame();
+		}
 
 	}
 
@@ -711,10 +745,10 @@
 			switch (mask) {
 
 				case "11111":
-					alert("User Won");
+					winner = "You won!";
 					break;
 				case "22222":
-					alert("Machine Won");
+					winner = "You lost!";
 					break;
 
 				// Machine a step away from winning
