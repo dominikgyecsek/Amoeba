@@ -3,7 +3,8 @@
 <head>
 
 	<title>Amoeba</title>
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 	<style>
 
@@ -12,31 +13,45 @@
 		width: 100%;
 		height: 100%;
 		box-sizing: border-box;
-		background-color: rgb(235,235,235);
+		background-color: whitesmoke;
 		display: flex;
 		justify-content: center;
-		font-family: 'Open Sans';
+		font-family: 'Arial';
+		font-size: 1em
 	}
 
 	* {
 		box-sizing: border-box;
 	}
 
+	button {
+		cursor: pointer;
+		border: none;
+		background-color: transparent;
+		color: #444444;
+		font-size: 1.2em
+	}
+
+	button:focus, input:focus {
+		outline: 0;
+	}
+
 	main {
-		/*background-color: yellow;*/
-		width: 600px;
-		height: 600px;
+		width: 100%;
+		height: 100%;
 		align-self: center;
 		position: relative;
 	}
 
 	.tile {
-		width: 30px;
-		height: 30px;
+		width: 5%;
+		height: 5%;
 		background-color: rgb(220,220,220);
 		float: left;
 		border: 1px solid rgb(235,235,235);
 		cursor: pointer;
+		display: flex;
+		justify-content: center;
 	}
 
 	@keyframes scaleUpCircle {
@@ -45,15 +60,15 @@
 	}
 
 	.circle {
-		height: 18px;
-		width: 18px;
+		align-self: center;
+		height: 50%;
+		width: 50%;
+		margin: 4px;
 		background-color: transparent;
-		top: 5px;
-		left: 5px;
 		display: inline-block;
 		border-radius: 100%;
 		position: relative;
-		border: 3px solid #556270;
+		border: 2px solid #556270;
 		animation-name: scaleUpCircle;
 		animation-duration: 0.3s;
 		animation-fill-mode: forwards;
@@ -63,67 +78,29 @@
 		background-color: #556270;
 	}
 
+	#options {
+		position: fixed;
+		top: 0px;
+		right: 0px;
+		background-color: transparent;
+		color: #575757;
+	}
+
+	#options>button, #in-game-hide {
+		float: left;
+	}
+
 	#reset-game-btn {
-		width: 598px;
-		margin: 1px;
-		position: absolute;
-		top: -50px;
-		color: #a2a0a0;
-		background-color: rgb(220,220,220);
-		border: none;
-		padding: 5px
-	}
-
-	#modal-wrapper {
-		width: 100%;
-		height: 100%;
-		z-index: 200;
-		background-color: rgba(0,0,0,0.2);
-		position: absolute;
-	}
-
-	#modal {
-		width: 210px;
-		padding: 15px;
-		background-color: white;
-		z-index: 100;
-		color: rgb(110, 110, 110);
-		top: 120px;
-		position: relative;
-		margin: auto;
-		box-shadow: 0 0 1px 2px #969696;
-		border-radius: 3px;
-	}
-
-	#header {
-		text-align: center;
-		margin-bottom: 16px;
-		color: #4C5864;
+		font-size: 22px;
 	}
 
 	.controll-btn {
-		background-color: #4C5864;
-		color: #E0E4CC;
-		border: 1px solid #E0E4CC;
-		border-radius: 3px;
-		padding: 4px 6px;
-		cursor: pointer;
+		font-size: 16px;
 	}
 
-	.controll-btn:hover {
-		background-color: #E0E4CC;
-		color: #4C5864;
-		border: 1px solid #4C5864;
-	}
-
-	#mp {
-		float: right;
-	}
-
-	.status {
-		text-transform: uppercase;
-		margin-bottom: 18px;
-		text-align: center;
+	#in-game-hide {
+		display: inline-block;
+		margin-top: 4px;
 	}
 
 	</style>
@@ -131,26 +108,18 @@
 </head>
 <body>
 
-	<div id="modal-wrapper">
-
-		<div id="modal">
-
-			<div class="modal-section">
-				<div id="status"></div>
-				<div id="header">Choose a mode</div>
-				<div id="controllers">
-					<button class="controll-btn" id="sp">Single Player</button>
-					<button class="controll-btn" id="mp">Multiplayer</button>
-				</div>
-			</div>
-
-		</div>
-
-	</div>
-	
 	<main>
 
-	<button class="button" id="reset-game-btn">Restart</button>
+	<div id="options">
+
+		<span id="in-game-hide">	
+			<button class="button controll-btn" id="sp">Single Player</button>
+			<button class="button controll-btn" id="mp">Multiplayer</button>
+		</span>
+
+		<button class="button" id="reset-game-btn"><i class="material-icons">refresh</i></button>
+
+	</div>
 
 		<span class="tile" id="1"></span>
 		<span class="tile" id="2"></span>
@@ -561,29 +530,54 @@
 <script src="jquery-2.2.1.min.js"></script>
 <script>
 
+	$(document).ready(function() {
+		resize();
+	})
+
 	$("#reset-game-btn").click(function() {
-		$("#modal-wrapper").show();
+		$("#in-game-hide").show();
 	})
 
 	$(".controll-btn").click(function() {
 		resetGame();
+		$("#in-game-hide").hide();
 		var type = $(this).attr("id");
 		if ( type == "sp" ) isMultiplayer = false;
 		else isMultiplayer = true;
 		$("#modal-wrapper").hide();
 	})
 
+	$(window).resize(resize)
+
 	var isGameOver = false;
 	var isMyTurn = true;
 	var winner = undefined;
 	var isMultiplayer;
+	var table = null
 
 	var x = '<span class="circle circle-alt"></span>';
 	var o = '<span class="circle"></span>';
 
 	const tableSize = 400;			
 
+	function resize() {
+
+		var width = $(window).width();
+		var height = $(window).height();
+		if (height < width) {
+			$("main").css("width", height);
+			$("main").css("height", "100%");
+		} else {
+			$("main").css("height", width);
+			$("main").css("width", "100%");
+		}
+
+	}
+
 	$(".tile").on("click", function() {
+
+		if (table == null) $("#sp").trigger("click");
+		$("#in-game-hide").hide();
 
 		var $this = $(this);
 		var  id = $this.attr("id");
@@ -660,7 +654,6 @@
 		$("#status").text("");
 		isMyTurn = true;
 		winner = undefined;
-
 		$(".occupied").removeClass("occupied").empty();
 
 	}
@@ -828,11 +821,13 @@
 
 		if ( (winner == undefined) && (isFull) ) {
 			winner = "Its a draw";
-			$("#status").text(winner);
-			$("#modal-wrapper").show();
+			alert(winner);
+			resetGame();
+			$("#in-game-hide").show();
 		} else if ( winner != undefined ) {
-			$("#status").text(winner);
-			$("#modal-wrapper").show();
+			alert(winner);
+			resetGame();
+			$("#in-game-hide").show();
 		}
 
 	}
@@ -852,12 +847,11 @@
 				case "11111":
 					if (!isMultiplayer) winner = "You won!";
 					else winner = "Player 1 One";
-					
 					break;
+
 				case "22222":
 					if (!isMultiplayer) winner = "You lost!";
 					else winner = "Player 2 One";
-					
 					break;
 
 				// Machine a step away from winning
@@ -924,7 +918,7 @@
 				case "01110":
 					if (bestCase >= 3) {
 						bestCase = 3;
-						bestCaseIndex = startIndex + (steps*i);
+						bestCaseIndex = startIndex + (steps*i) + (4 * steps);
 					}	
 					break;	
 				case "00111":
